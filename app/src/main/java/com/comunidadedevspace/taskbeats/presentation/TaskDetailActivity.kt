@@ -1,4 +1,4 @@
-package com.comunidadedevspace.taskbeats
+package com.comunidadedevspace.taskbeats.presentation
 
 import android.app.Activity
 import android.content.Context
@@ -11,6 +11,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import com.comunidadedevspace.taskbeats.R
+import com.comunidadedevspace.taskbeats.data.Task
 import com.google.android.material.snackbar.Snackbar
 
 class TaskDetailActivity : AppCompatActivity() {
@@ -30,7 +32,7 @@ class TaskDetailActivity : AppCompatActivity() {
 
                 .apply {
 
-                    putExtra(TaskDetailActivity.TASK_DETAIL_EXTRA, task)
+                    putExtra(TASK_DETAIL_EXTRA, task)
 
                 }
 
@@ -74,11 +76,11 @@ class TaskDetailActivity : AppCompatActivity() {
                 if(task == null){
                     //tarefa igual a vazio
                     //Cria a nova tarefa
-                    addOrUpdateTask(0,title,desc,ActionType.CREATE)
+                    addOrUpdateTask(0,title,desc, ActionType.CREATE)
 
                 }else {
                      //atualizar a tarefa task.id é para pegar o id da tarefa anterior
-                    addOrUpdateTask(task!!.id,title,desc,ActionType.UPDATE)
+                    addOrUpdateTask(task!!.id,title,desc, ActionType.UPDATE)
 
                 }
 
