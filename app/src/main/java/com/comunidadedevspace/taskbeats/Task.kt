@@ -1,0 +1,16 @@
+package com.comunidadedevspace.taskbeats
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.io.Serializable
+import java.sql.RowId
+
+
+
+@Entity
+data class Task(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val title: String,
+    val description:String
+
+    ):Serializable
