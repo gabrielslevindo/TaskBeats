@@ -135,23 +135,17 @@ class TaskDetailActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         } }
-
     private fun returnAction(task: Task, actionType: ActionType) {
 
         val intent = Intent()
             .apply {
-                val taskAction = TeskAction(task!!, actionType.name)
+                val taskAction = TaskAction(task!!, actionType.name)
                 putExtra(TASK_ACTION_RESULT, taskAction)
             }
         setResult(Activity.RESULT_OK, intent)
         finish()
 
-
-
-
     }
-
-
 }
 
 
