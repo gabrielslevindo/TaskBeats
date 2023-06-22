@@ -77,9 +77,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        //Aqui vou chamar o adapter:
-
-
         //RecyclerView está aqui:
         val rvTasks: RecyclerView = findViewById(R.id.rv_task_list)
         rvTasks.adapter = adapter

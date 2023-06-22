@@ -91,6 +91,16 @@ dependencies {
     // optional - Test helpers
         testImplementation "androidx.room:room-testing:$room_version"
 
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    testImplementation "org.mockito:mockito-core:4.5.1"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:4.1.0"
+
+
+
+    def fragment_version = "1.5.7"
+    // Kotlin
+    implementation("androidx.fragment:fragment-ktx:$fragment_version")
+
 
 
 

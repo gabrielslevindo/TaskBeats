@@ -7,12 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.comunidadedevspace.taskbeats.TaskBeatsAplication
 import com.comunidadedevspace.taskbeats.data.Task
 import com.comunidadedevspace.taskbeats.data.TaskDao
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class TaskListViewModel(private val taskDao: TaskDao) : ViewModel() {
+class TaskListViewModel(private val taskDao: TaskDao,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+                        ) : ViewModel() {
 
 
     //dessa forma temos o livedata dentro do viewmodel.
@@ -31,40 +34,27 @@ class TaskListViewModel(private val taskDao: TaskDao) : ViewModel() {
 
     private fun deleteAll() { // deletar todos
 
-        viewModelScope.launch(Dispatchers.IO) {
-
-
+        viewModelScope.launch(dispatcher) {
             taskDao.deleteAll()
-
         }
-
-
     }
 
     private fun deleteById(id: Int) { // deletar todos
 
-        viewModelScope.launch(Dispatchers.IO) {
-
+        viewModelScope.launch(dispatcher) {
             taskDao.deleteById(id)
-
         }
-
     }
 
     private fun insertIntoDataBase(task: Task) { // inserir na base de dados
-
-
-        viewModelScope.launch(Dispatchers.IO) {
-
-
+        viewModelScope.launch(dispatcher) {
             taskDao.insert(task)
-
         }
     }
 
     private fun updateIntoDataBase(task: Task) { // fazer o update
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcher) {
 
             taskDao.update(task)
 
