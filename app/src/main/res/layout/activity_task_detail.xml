@@ -7,7 +7,11 @@
     android:orientation="vertical"
     tools:context=".presentation.TaskDetailActivity">
 
-    <include layout="@layout/toolbar"/>
+    <include
+
+        layout="@layout/toolbar"
+
+        />
 
     <TextView
         style="@style/Title3"

@@ -15,7 +15,7 @@ class TaskListAdapter(
     private val openTaskDetailView:(task: Task) -> Unit
     ) :
     ListAdapter<Task, TaskListViewHolder>(TaskListAdapter){
-    private var listTask: List<Task> = emptyList()
+  //  private var listTask: List<Task> = emptyList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskListViewHolder {
         val view: View = LayoutInflater
             .from(parent.context)
@@ -46,6 +46,9 @@ class TaskListViewHolder(private val view: View) : RecyclerView.ViewHolder(view)
 
         tvTaskTitle.text = task.title
         tvTaskDescription.text = task.description
+
+        // Se quiser que apareça o numero de cada descrição é só fazer :
+        //   tvTaskDescription.text = "${task} - ${description}
 
         view.setOnClickListener {
 

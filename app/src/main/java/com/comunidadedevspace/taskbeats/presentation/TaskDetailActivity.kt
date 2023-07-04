@@ -1,6 +1,5 @@
 package com.comunidadedevspace.taskbeats.presentation
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import androidx.activity.viewModels
 import com.comunidadedevspace.taskbeats.R
 import com.comunidadedevspace.taskbeats.data.Task
 import com.google.android.material.snackbar.Snackbar
@@ -19,6 +19,12 @@ class TaskDetailActivity : AppCompatActivity() {
 
     private var task: Task? = null
     private lateinit var btnDone: Button
+
+
+    //  A função do by é só utilizar o viewmodel quando é chamado;
+    private val taskDetailViewModel: TaskDetailViewModel by viewModels {
+        TaskDetailViewModel.getVMFactory(application)
+    }
 
 
     companion object {
@@ -58,9 +64,9 @@ class TaskDetailActivity : AppCompatActivity() {
         val edtDesc = findViewById<EditText>(R.id.edt_task_description)
 
         //Aqui recupero o id do botão
-         btnDone = findViewById<Button>(R.id.btn_done)
+        btnDone = findViewById<Button>(R.id.btn_done)
 
-        if(task != null){
+        if (task != null) {
             edtTitle.setText(task!!.title)
             edtDesc.setText(task!!.description)
         }
@@ -71,20 +77,20 @@ class TaskDetailActivity : AppCompatActivity() {
             val desc = edtDesc.text.toString()
 
 
-            if (title.isNotEmpty() && desc.isNotEmpty() ){
+            if (title.isNotEmpty() && desc.isNotEmpty()) {
 
-                if(task == null){
+                if (task == null) {
                     //tarefa igual a vazio
                     //Cria a nova tarefa
-                    addOrUpdateTask(0,title,desc, ActionType.CREATE)
+                    addOrUpdateTask(0, title, desc, ActionType.CREATE)
 
-                }else {
-                     //atualizar a tarefa task.id é para pegar o id da tarefa anterior
-                    addOrUpdateTask(task!!.id,title,desc, ActionType.UPDATE)
+                } else {
+                    //atualizar a tarefa task.id é para pegar o id da tarefa anterior
+                    addOrUpdateTask(task!!.id, title, desc, ActionType.UPDATE)
 
                 }
 
-            }else {
+            } else {
 
                 showMessage(it, "Filds are requered")
 
@@ -92,25 +98,30 @@ class TaskDetailActivity : AppCompatActivity() {
         }
 
 
+    }
 
-        }
     //Aqui é a função de atualizar ou atualizar a tarefa, no if e else abaixo de btn done chamamos ela.
-    private  fun addOrUpdateTask(id:Int,title: String, description: String, actionType: ActionType) {
+    private fun addOrUpdateTask(
+        id: Int,
+        title: String,
+        description: String,
+        actionType: ActionType
+    ) {
 
         val task = Task(id, title, description)
-        returnAction(task, actionType)
+        performAction(task, actionType)
 
 
-        }
+    }
 
 
-        //recuperar campo do xml
-        //    tvTitle = findViewById<TextView>(R.id.tv_task_title_detail)
+    //recuperar campo do xml
+    //    tvTitle = findViewById<TextView>(R.id.tv_task_title_detail)
 
 
-        // setar um novo texto na tela
-        //     tvTitle.text = task?.title ?:"Adicione uma tarefa"
-        // função criada para alocar o titulo e a descrição
+    // setar um novo texto na tela
+    //     tvTitle.text = task?.title ?:"Adicione uma tarefa"
+    // função criada para alocar o titulo e a descrição
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean { // aqui estamos inflando o botão pra conseguir utilizar ele
@@ -127,22 +138,21 @@ class TaskDetailActivity : AppCompatActivity() {
             R.id.delete_task -> {
                 //Código para sretar o resultado na tela anterior.
                 if (task != null) {
-               returnAction(task!!, ActionType.DELETE)
+                    performAction(task!!, ActionType.DELETE)
                 } else {
                     showMessage(btnDone, "Item not found")
                 }
                 true
             }
             else -> super.onOptionsItemSelected(item)
-        } }
-    private fun returnAction(task: Task, actionType: ActionType) {
+        }
+    }
 
-        val intent = Intent()
-            .apply {
-                val taskAction = TaskAction(task!!, actionType.name)
-                putExtra(TASK_ACTION_RESULT, taskAction)
-            }
-        setResult(Activity.RESULT_OK, intent)
+    private fun performAction(task: Task, actionType: ActionType) {
+
+
+        val taskAction = TaskAction(task, actionType.name)
+        taskDetailViewModel.execute(taskAction)
         finish()
 
     }

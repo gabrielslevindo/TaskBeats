@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.commit
 import com.comunidadedevspace.taskbeats.R
+import com.comunidadedevspace.taskbeats.data.Task
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity1 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,6 +15,14 @@ class MainActivity1 : AppCompatActivity() {
         setContentView(R.layout.activity_main1)
 
         val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+        val floatActionButton = findViewById<FloatingActionButton>(R.id.floatActionButton)
+
+        floatActionButton.setOnClickListener{
+
+            openTaskListDetail()
+
+
+        }
 
         val taskListFragment = TaskListFragment.newInstance()
         val newsListFragment = NewsListFragment.newInstance()
@@ -51,4 +61,13 @@ class MainActivity1 : AppCompatActivity() {
 
 
     }
+
+    private fun openTaskListDetail() {
+
+        val intent = TaskDetailActivity.start(this, null)
+         startActivity(intent)
+
+
+    }
+
 }
