@@ -9,7 +9,12 @@ import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.comunidadedevspace.taskbeats.R
-import com.comunidadedevspace.taskbeats.data.Task
+import com.comunidadedevspace.taskbeats.data.local.Task
+import com.comunidadedevspace.taskbeats.data.remote.NewsResponse
+import com.comunidadedevspace.taskbeats.data.remote.RetrofitModule
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 /**
@@ -19,10 +24,12 @@ import com.comunidadedevspace.taskbeats.data.Task
  */
 class TaskListFragment : Fragment() {
 
+    private val retrofiteModulate = RetrofitModule
+
     //Linear layout para mostrar estado de vazio
     private lateinit var ctnContent: LinearLayout
 
-   //Adaapter
+    //Adaapter
     private val adapter: TaskListAdapter by lazy {
 
         TaskListAdapter(::openTaskListDetail)
@@ -30,15 +37,13 @@ class TaskListFragment : Fragment() {
 
     //ViewModel - fomra diferente de pegar o aplication precisamos fazer o requerimento da activity;
 
-    private val viewModel: TaskListViewModel by lazy{
+    private val viewModel: TaskListViewModel by lazy {
 
         TaskListViewModel.create(requireActivity().application)
     }
 
 
-
-
-   // Aqui é onde criamos a view do fragment
+    // Aqui é onde criamos a view do fragment
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,10 +54,10 @@ class TaskListFragment : Fragment() {
 
     // Aqui é o tratamento depois que a view ja foi criada;
     // Fragment é como se fosse um conteiner , sempre que queremos encontrar a view vamos precisar chamar a view. o que precisamos
-   // sempre que precisamos chamar algo para termos acesso ex viewmodel, adapter pelo id,
+    // sempre que precisamos chamar algo para termos acesso ex viewmodel, adapter pelo id,
     //precisamos chamar onde a view ja foi criada ou seja no onviewcreated;
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            super.onViewCreated(view, savedInstanceState)
+        super.onViewCreated(view, savedInstanceState)
 
         // Aqui chamamos a imagem de quando não temos nada na lista.
         ctnContent = view.findViewById(R.id.ctn_content)
@@ -62,10 +67,11 @@ class TaskListFragment : Fragment() {
         val rvTasks: RecyclerView = view.findViewById(R.id.rv_task_list)
         rvTasks.adapter = adapter
 
+
     }
 
 
-//Para dar start na lista no fragment;
+    //Para dar start na lista no fragment;
     override fun onStart() {
         super.onStart()
         listFromDataBase()
@@ -74,14 +80,14 @@ class TaskListFragment : Fragment() {
 
     private fun listFromDataBase() { // esse pega todas as listas e atualiza no adapter
 
-        val listObserver = Observer<List<Task>>{listTasks ->
+        val listObserver = Observer<List<Task>> { listTasks ->
             //obeserver
 
-            if(listTasks.isEmpty()){
+            if (listTasks.isEmpty()) {
 
                 ctnContent.visibility = View.VISIBLE
 
-            }else {
+            } else {
 
                 ctnContent.visibility = View.GONE
 
@@ -104,7 +110,7 @@ class TaskListFragment : Fragment() {
     private fun openTaskListDetail(task: Task) {
 
         val intent = TaskDetailActivity.start(requireContext(), task)
-       requireActivity().startActivity(intent)
+        requireActivity().startActivity(intent)
     }
 
     companion object {
@@ -117,5 +123,5 @@ class TaskListFragment : Fragment() {
         @JvmStatic
         fun newInstance() =
             TaskListFragment()
-            }
     }
+}

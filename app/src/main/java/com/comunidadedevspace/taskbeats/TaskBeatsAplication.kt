@@ -2,14 +2,14 @@ package com.comunidadedevspace.taskbeats
 
 import android.app.Application
 import androidx.room.Room
-import com.comunidadedevspace.taskbeats.data.AppDataBase
+import com.comunidadedevspace.taskbeats.data.local.AppDataBase
 
 class TaskBeatsAplication: Application() {
 
 
 
     //Banco de dados e nome do banco;
-    private lateinit var  dataBase :AppDataBase
+    private lateinit var  dataBase : AppDataBase
 
 
     override fun onCreate() {
@@ -22,7 +22,7 @@ class TaskBeatsAplication: Application() {
 
 
 
-    fun getAppDataBase(): AppDataBase{
+    fun getAppDataBase(): AppDataBase {
 
         return dataBase
 
